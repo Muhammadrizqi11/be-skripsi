@@ -7,6 +7,7 @@ const app = express();
 app.use(
   cors({
     origin: "https://studiobook.netlify.app",
+    // "http://localhost:5173/"
     credentials: true,
   })
 );

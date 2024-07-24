@@ -43,6 +43,7 @@ router.get("/pemesanan/studio/:studioId", getBookingsForStudio);
 
 // api payment gateway
 router.post("/api/trancation", createPayment);
+router.get("/api/notification", (req, res) => res.status(201).json({ message: "OK" }));
 router.post("/api/notification", getNotification);
 
 // Tambahkan rute untuk mendapatkan riwayat pemesanan berdasarkan userId
