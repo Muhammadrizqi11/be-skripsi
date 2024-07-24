@@ -6,11 +6,10 @@ import bodyParser from "body-parser";
 const app = express();
 app.use(
   cors({
-    origin: ["https://fe-skripsi-seven.vercel.app", "http://localhost:5173/"],
+    origin: "https://fe-skripsi-seven.vercel.app",
     credentials: true,
   })
 );
-
 app.use(express.json());
 
 app.use(router);
