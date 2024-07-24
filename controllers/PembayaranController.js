@@ -123,37 +123,17 @@ export const createPayment = async (req, res) => {
 };
 // Endpoint untuk menerima notifikasi dari Midtrans
 export const getNotification = async (req, res) => {
-  const receivedJson = req.body;
-
+  const notification = req.body;
+  console.log("===>", notification.transaction_status);
   try {
-    // const statusResponse = await snap.transaction.notification(receivedJson);
-    // const { order_id: orderId, transaction_status: transactionStatus, fraud_status: fraudStatus } = statusResponse;
-
-    // console.log(`Transaction notification received. Order ID: ${orderId}. Transaction status: ${transactionStatus}. Fraud status: ${fraudStatus}.`);
-
-    // let updateStatus = 'unknown';
-    // if (transactionStatus === 'capture') {
-    //   if (fraudStatus === 'challenge') {
-    //     updateStatus = 'challenge';
-    //   } else if (fraudStatus === 'accept') {
-    //     updateStatus = 'success';
-    //   }
-    // } else if (transactionStatus === 'settlement') {
-    //   updateStatus = 'success';
-    // } else if (transactionStatus === 'cancel' ||
-    //   transactionStatus === 'deny' ||
-    //   transactionStatus === 'expire') {
-    //   updateStatus = 'failure';
-    // } else if (transactionStatus === 'pending') {
-    //   updateStatus = 'pending';
-    // }
-
-    // // Update status di database
-    // await prisma.pemesanan.update({
-    //   where: { orderId }, // pastikan orderId sesuai dengan kolom yang ada di database
-    //   data: { status: updateStatus },
-    // });
-
+    if (notification.transaction_status !== "pending") {
+      await prisma.pembayaran.update({
+        data: {
+          status: notification.transaction_status === "settlement" ? "success" : notification.transaction_status === "expire" ? "expired" : notification.transaction_status === "cancel" ? "cancel" : "failure",
+        },
+        where: { code: notification.order_id },
+      });
+    }
     res.status(200).send("OK");
   } catch (error) {
     console.error("Failed to handle notification:", error);
