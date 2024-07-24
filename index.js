@@ -6,9 +6,9 @@ import bodyParser from "body-parser";
 const app = express();
 app.use(
   cors({
-    origin: "https://fe-skripsi-seven.vercel.app",
+    // origin: "https://fe-skripsi-seven.vercel.app",
+    origin: "*",
     credentials: true,
-    // tes
   })
 );
 app.use(express.json());
