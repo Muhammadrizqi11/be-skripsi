@@ -1,0 +1,10 @@
+POST http://localhost:5000/pemesanan
+Content-Type: application/json
+{
+  "totalHarga": 500000,
+  "tanggalMulai": "2024-07-10T10:00:00.000Z",
+  "tanggalSelesai": "2024-07-10T12:00:00.000Z",
+  "durasi": 2,
+  "studioId": 1,
+  "userId": 1
+}
