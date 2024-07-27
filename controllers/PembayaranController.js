@@ -129,7 +129,7 @@ export const getNotification = async (req, res) => {
     if (notification.transaction_status !== "pending") {
       await prisma.pembayaran.update({
         data: {
-          status: notification.transaction_status === "settlement" ? "success" : notification.transaction_status === "expire" ? "expired" : notification.transaction_status === "cancel" ? "cancel" : "failure",
+          status: notification.transaction_status === "settlement" ? "success" : notification.transaction_status === "expire" ? "expired" : notification.transaction_status === "cancel" ? "cancelled" : "failure",
         },
         where: { code: notification.order_id },
       });

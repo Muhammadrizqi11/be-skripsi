@@ -6,8 +6,9 @@ import bodyParser from "body-parser";
 const app = express();
 app.use(
   cors({
-    origin: "https://studiobook.netlify.app",
-    // "http://localhost:5173/"
+    origin: "http://localhost:5173/",
+
+    // "https://studiobook.netlify.app",
     credentials: true,
   })
 );
