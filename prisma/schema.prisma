@@ -16,7 +16,7 @@ datasource db {
 
 model Studio {
   id          Int    @id @default(autoincrement())
-  image       Bytes // Menggunakan Bytes untuk menyimpan gambar
+  image       String // Menggunakan Bytes untuk menyimpan gambar
   name        String
   address     String
   price       Float
@@ -36,14 +36,15 @@ model User {
   name        String
   email       String
   password    String
+  image       String?
   role        Role    @default(USER)
   instagram   String?
   accessToken String?
 
   // Relasi: One-to-Many
   pemesanan Pemesanan[]
-
   studio Studio[]
+  review Review[]
 }
 
 enum Role {
@@ -66,7 +67,6 @@ model Pembayaran {
 
   // Field foreign key ke Pemesanan
   pemesananId Int
-
   @@map("pembayaran")
 }
 
@@ -83,9 +83,32 @@ model Pemesanan {
   // Relasi: Many-to-One
   studio Studio @relation(fields: [studioId], references: [id])
   user   User   @relation(fields: [userId], references: [id])
+  reviw Review[]
 
   // Relasi: One-to-Many ke Pembayaran
   pembayaran Pembayaran[]
-
   @@map("pemesanan")
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+  comment String
+  rating Int
+  image String
+  userId Int
+  orderId Int
+  user User @relation(fields: [userId], references: [id])
+  order Pemesanan @relation(fields: [orderId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Withdraw {
+  id Int @id @default(autoincrement())
+  accountName String
+  accountNumber String
+  bank String
+  amount Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

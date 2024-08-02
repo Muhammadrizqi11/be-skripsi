@@ -7,9 +7,10 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "https://studiobook.netlify.app",
+    origin: "http://localhost:5173",
 
-    // "http://localhost:5173/",
+    // http://localhost:5173,
+    // https://studiobook.netlify.app
   })
 );
 app.use(express.json());

@@ -57,45 +57,35 @@ export const getStudioById = async (req, res) => {
 };
 
 export const createStudio = async (req, res) => {
-  upload(req, res, async (err) => {
-    if (err instanceof multer.MulterError) {
-      return res.status(400).json({ error: "Error uploading file." });
-    } else if (err) {
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
+  const { name, address, price, description, image, userId } = req.body;
 
-    const { name, address, price, description, userId } = req.body;
+  const userData = await prisma.user.findFirst({ where: { id: Number(userId) } });
 
-    const userData = await prisma.user.findFirst({ where: { id: Number(userId) } });
+  if (userData.role !== "OWNER") return res.status(401).json({ error: "You are not owner" });
 
-    if (userData.role !== "OWNER") return res.status(401).json({ error: "You are not owner" });
+  // Konversi price dari string ke float
+  const parsedPrice = parseFloat(price);
 
-    const image = req.file.buffer; // Ambil data gambar dari req.file.buffer
+  if (isNaN(parsedPrice)) {
+    return res.status(400).json({ error: "Invalid price value" });
+  }
 
-    // Konversi price dari string ke float
-    const parsedPrice = parseFloat(price);
-
-    if (isNaN(parsedPrice)) {
-      return res.status(400).json({ error: "Invalid price value" });
-    }
-
-    try {
-      await prisma.studio.create({
-        data: {
-          name,
-          address,
-          price: parsedPrice,
-          description,
-          image, // Simpan data gambar ke dalam kolom image
-          ownerId: userData.id,
-        },
-      });
-      return res.status(201).json({ msg: "Studio Created" });
-    } catch (error) {
-      console.error("===>", error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
+  try {
+    await prisma.studio.create({
+      data: {
+        name,
+        address,
+        price: parsedPrice,
+        description,
+        image, // Simpan data gambar ke dalam kolom image
+        ownerId: userData.id,
+      },
+    });
+    return res.status(201).json({ msg: "Studio Created" });
+  } catch (error) {
+    console.error("===>", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 export const updateStudio = async (req, res) => {
