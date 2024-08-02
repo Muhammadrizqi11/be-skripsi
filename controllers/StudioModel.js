@@ -22,6 +22,23 @@ export const getStudio = async (req, res) => {
   }
 };
 
+export const getOwnerStudio = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const studio = await prisma.studio.findUnique({
+      where: { ownerId: parseInt(id) },
+    });
+    if (!studio) {
+      return res.status(404).json({ error: "This Owner haven't any studio" });
+    }
+    studio.image = studio.image.toString("base64");
+    res.status(200).json(studio);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export const getStudioById = async (req, res) => {
   const { id } = req.params;
   try {

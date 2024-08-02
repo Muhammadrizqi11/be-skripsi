@@ -1,5 +1,5 @@
 import express from "express";
-import { getStudio, getStudioById, createStudio, updateStudio, deleteStudio } from "../controllers/StudioModel.js";
+import { getStudio, getStudioById, createStudio, updateStudio, deleteStudio, getOwnerStudio } from "../controllers/StudioModel.js";
 import { getUsers, Register, Login, Logout } from "../controllers/Users.js";
 import { verifyToken, authorizeRole } from "../middleware/VerifyToken.js";
 import { createPemesanan, getPemesanan, getPemesananById, updatePemesanan, deletePemesanan, getBookingsForStudio, getPemesananByUserId, getBookingsForOwner } from "../controllers/PemesananController.js";
@@ -11,6 +11,7 @@ const router = express.Router();
 // verifyToken, authorizeRole("OWNER")
 // route studio
 router.get("/studio", getStudio);
+router.get("/studio/owner/:id", getOwnerStudio);
 router.get("/studio/:id", getStudioById);
 router.post("/studio", createStudio);
 router.patch("/studio/:id", updateStudio);
