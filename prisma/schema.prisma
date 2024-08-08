@@ -19,6 +19,7 @@ model Studio {
   image       String // Menggunakan Bytes untuk menyimpan gambar
   name        String
   address     String
+  paket       String
   price       Float
   description String
   ownerId Int

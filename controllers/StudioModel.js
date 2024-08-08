@@ -25,13 +25,13 @@ export const getStudio = async (req, res) => {
 export const getOwnerStudio = async (req, res) => {
   const { id } = req.params;
   try {
-    const studio = await prisma.studio.findUnique({
+    const studio = await prisma.studio.findMany({
       where: { ownerId: parseInt(id) },
     });
     if (!studio) {
       return res.status(404).json({ error: "This Owner haven't any studio" });
     }
-    studio.image = studio.image.toString("base64");
+
     res.status(200).json(studio);
   } catch (error) {
     console.error(error);
@@ -64,7 +64,7 @@ export const createStudio = async (req, res) => {
   if (userData.role !== "OWNER") return res.status(401).json({ error: "You are not owner" });
 
   // Konversi price dari string ke float
-  const parsedPrice = parseFloat(price);
+  const parsedPrice = parseInt(price);
 
   if (isNaN(parsedPrice)) {
     return res.status(400).json({ error: "Invalid price value" });
