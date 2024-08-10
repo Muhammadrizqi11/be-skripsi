@@ -1,6 +1,6 @@
 import express from "express";
 import { getStudio, getStudioById, createStudio, updateStudio, deleteStudio, getOwnerStudio } from "../controllers/StudioModel.js";
-import { getUsers, Register, Login, Logout } from "../controllers/Users.js";
+import { getUsers, Register, Login, Logout, verifyEmail } from "../controllers/Users.js";
 import { verifyToken, authorizeRole } from "../middleware/VerifyToken.js";
 import { createPemesanan, getPemesanan, getPemesananById, updatePemesanan, deletePemesanan, getBookingsForStudio, getPemesananByUserId, getBookingsForOwner } from "../controllers/PemesananController.js";
 import { getPembayaran, getPembayaranById, createPembayaran, updatePembayaran, deletePembayaran, createPayment, getNotification, cancelPembayaran } from "../controllers/PembayaranController.js";
@@ -23,6 +23,7 @@ router.post("/users", Register);
 router.post("/login", Login);
 // router.get("/token", refreshToken);
 router.delete("/logout", Logout);
+router.get("/verify-email", verifyEmail);
 
 // route pemesanan
 router.post("/pemesanan", createPemesanan);

@@ -57,7 +57,7 @@ export const getStudioById = async (req, res) => {
 };
 
 export const createStudio = async (req, res) => {
-  const { name, address, price, description, image, userId } = req.body;
+  const { name, address, price, description, image, userId, paket } = req.body;
 
   const userData = await prisma.user.findFirst({ where: { id: Number(userId) } });
 
@@ -78,6 +78,7 @@ export const createStudio = async (req, res) => {
         price: parsedPrice,
         description,
         image, // Simpan data gambar ke dalam kolom image
+        paket,
         ownerId: userData.id,
       },
     });

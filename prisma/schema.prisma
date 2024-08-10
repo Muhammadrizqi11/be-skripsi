@@ -16,11 +16,11 @@ datasource db {
 
 model Studio {
   id          Int    @id @default(autoincrement())
-  image       String // Menggunakan Bytes untuk menyimpan gambar
+  image       String 
   name        String
   address     String
-  paket       String
   price       Float
+  paket       String
   description String
   ownerId Int
   user User @relation(fields: [ownerId], references: [id])
@@ -35,12 +35,14 @@ model Studio {
 model User {
   id          Int     @id @default(autoincrement())
   name        String
-  email       String
+  email       String  @unique
   password    String
   image       String?
   role        Role    @default(USER)
   instagram   String?
   accessToken String?
+  verify      Boolean @default(false)
+  verifyToken String?
 
   // Relasi: One-to-Many
   pemesanan Pemesanan[]
